@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: asl-translator
+    runtime: python
+    buildCommand: >-
+      pip install -r requirements.txt &&
+      python -c "import nltk; [nltk.download(x, download_dir='nltk_data') for x in ['punkt','punkt_tab','averaged_perceptron_tagger','averaged_perceptron_tagger_eng','wordnet','omw-1.4']]" &&
+      python manage.py collectstatic --noinput &&
+      python manage.py migrate
+    startCommand: gunicorn A2SL.wsgi:application
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "asl-translator.onrender.com"
