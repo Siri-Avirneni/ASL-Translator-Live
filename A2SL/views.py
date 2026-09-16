@@ -25,7 +25,7 @@ def animation_view(request):
 	if request.method == 'POST':
 		text = request.POST.get('sen')
 		#tokenizing the sentence
-		text.lower()
+		text = text.lower()
 		#tokenizing the sentence
 		words = word_tokenize(text)
 
